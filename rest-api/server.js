@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -12,17 +13,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Database connection configuration
-const dbConfig = {
-  host: process.env.DB_HOST || 'database',
+const connection = { mysql.createConnection({
+  host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || 'password',
-  database: process.env.DB_NAME || 'inventory_db',
-  port: 3306,
-  acquireTimeout: 60000,
-  timeout: 60000,
-  reconnect: true,
-  charset: 'utf8mb4'
-};
+  database: process.env.DB_NAME || 'inventory_db'
+});
 
 let db;
 let isConnected = false;
